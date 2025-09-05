@@ -108,5 +108,10 @@ def download_chart(filetype, timestamp):
     return render_template("history.html", history=chart_history, active_page="history")
 
 
+import os
+
 if __name__ == "__main__":
-    app.run(debug=True, use_reloader=False)
+    port = int(os.environ.get("PORT", 5000))  # Use Render's PORT if available
+    app.run(host="0.0.0.0", port=port, debug=True)
+
+
