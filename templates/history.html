@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Graph History</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .nav-link { color: black !important; }
+    .nav-link.active { color: #0d6efd !important; font-weight: bold; }
+  </style>
+</head>
+<body class="bg-light">
+
+  
+  <ul class="nav nav-underline justify-content-end p-2 bg-white shadow-sm" style="margin: 5px 20px;">
+    <li class="nav-item">
+      <a class="nav-link {% if active_page == 'home' %}active{% endif %}" href="{{ url_for('index') }}">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {% if active_page == 'history' %}active{% endif %}" href="{{ url_for('history') }}">📂 Graph History</a>
+    </li>
+  </ul>
+
+<div class="container mt-4">
+  <h1 class="text-center mb-4">📂 Graph History</h1>
+
+  {% if history %}
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>Type</th>
+          <th>X</th>
+          <th>Y</th>
+          <th>Preview</th>
+          <th>Download</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for chart in history %}
+          <tr>
+            <td>{{ chart.time }}</td>
+            <td>{{ chart.type }}</td>
+            <td>{{ chart.x }}</td>
+            <td>{{ chart.y }}</td>
+            <td><img src="{{ url_for('download_chart', filetype='png', timestamp=chart.time) }}" width="120"></td>
+            <td>
+              <a href="{{ url_for('download_chart', filetype='png', timestamp=chart.time) }}" class="btn btn-sm btn-outline-primary">PNG</a>
+              
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div class="alert alert-info">No charts yet.</div>
+  {% endif %}
+
+  <div class="text-center mt-4">
+    <a href="{{ url_for('index') }}" class="btn btn-secondary">⬅ Back</a>
+  </div>
+</div>
+
+</body>
+</html>
